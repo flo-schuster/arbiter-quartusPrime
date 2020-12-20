@@ -15,12 +15,29 @@ limitations under the License.
 */
 
 module arbiter (
-input req_0,
-input req_1,
-input clk,
-input reset,
-output gnt_0,
-output gnt_1
+	input req_0,		// Request for device #0
+	input req_1,		// Request for device #1
+	input reset,		// Reset
+	input clk,			// Clock
+	output reg gnt_0,		// Grant device #0 
+	output reg gnt_1		// Grant device #1
 );
+
+
+	always @ (posedge clk) begin
+
+		if (reset) begin
+			gnt_0 <= 0;
+			gnt_1 <= 0;
+		
+		end else if (req_0) begin
+			gnt_0 <= 1;
+			gnt_1 <= 0;
+		end else if (req_1) begin
+			gnt_0 <= 0;
+			gnt_1 <= 1;
+		end
+
+	end
 
 endmodule
